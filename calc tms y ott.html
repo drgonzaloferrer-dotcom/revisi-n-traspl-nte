@@ -1,0 +1,263 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AMECRA · Calculadoras Menisco y Re-Revisión LCA</title>
+<style>
+:root{
+  --bg:#071016; --panel:#0f1d27; --panel2:#132836; --line:#294758; --text:#eef7fb; --muted:#9fb6c2;
+  --cyan:#00d5ff; --amber:#ffb347; --green:#5ef2a0; --red:#ff6b6b; --blue:#7aa8ff; --white:#ffffff;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 15% 0%, #173142 0, transparent 28%),radial-gradient(circle at 80% 15%, #1b3142 0, transparent 25%),linear-gradient(135deg,#05090d 0%,#071016 48%,#0c1821 100%);color:var(--text);font-family:Inter,Segoe UI,Arial,sans-serif;min-height:100vh;}
+.app{max-width:1280px;margin:0 auto;padding:34px 28px 46px;}
+.hero{display:grid;grid-template-columns:1.15fr .85fr;gap:22px;align-items:stretch;margin-bottom:22px;}
+.heroCard{position:relative;overflow:hidden;border:1px solid rgba(0,213,255,.24);background:linear-gradient(135deg,rgba(15,29,39,.94),rgba(9,18,25,.94));border-radius:28px;box-shadow:0 25px 65px rgba(0,0,0,.45);padding:30px;min-height:240px;}
+.heroCard:before{content:"";position:absolute;inset:-2px;background:linear-gradient(125deg,rgba(0,213,255,.15),transparent 38%,rgba(255,179,71,.16));pointer-events:none;}
+.kicker{font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--cyan);font-weight:800;position:relative;z-index:1;}
+h1{font-size:48px;line-height:1.02;margin:12px 0 10px;letter-spacing:-1.2px;position:relative;z-index:1;}
+.subtitle{font-size:18px;line-height:1.45;color:var(--muted);max-width:800px;position:relative;z-index:1;}
+.heroMeta{display:grid;grid-template-columns:1fr 1fr;gap:12px;position:relative;z-index:1;margin-top:22px;}
+.metaBox{border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:13px 14px;background:rgba(255,255,255,.035)}
+.metaBox b{display:block;color:#fff;font-size:14px}.metaBox span{display:block;color:var(--muted);font-size:12px;margin-top:4px;line-height:1.35}
+.tabs{display:flex;gap:10px;margin:10px 0 22px;flex-wrap:wrap;}
+.tab{border:1px solid rgba(255,255,255,.13);background:rgba(255,255,255,.045);color:var(--text);border-radius:999px;padding:12px 17px;font-weight:800;cursor:pointer;transition:.18s;}
+.tab.active{background:linear-gradient(90deg,rgba(0,213,255,.25),rgba(255,179,71,.18));border-color:rgba(0,213,255,.65);box-shadow:0 0 0 4px rgba(0,213,255,.08)}
+.grid{display:grid;grid-template-columns:1.08fr .92fr;gap:22px;align-items:start;}
+.card{border:1px solid rgba(255,255,255,.12);background:linear-gradient(180deg,rgba(15,29,39,.96),rgba(9,17,24,.96));border-radius:24px;box-shadow:0 18px 45px rgba(0,0,0,.32);padding:22px;}
+.card h2{margin:0 0 8px;font-size:24px;letter-spacing:-.3px}.card p.lead{margin:0 0 18px;color:var(--muted);line-height:1.45;font-size:14px}
+.sectionTitle{font-size:12px;color:var(--cyan);letter-spacing:.16em;text-transform:uppercase;font-weight:900;margin:22px 0 12px;border-top:1px solid rgba(255,255,255,.08);padding-top:18px;}
+.formGrid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.field{border:1px solid rgba(255,255,255,.10);border-radius:16px;padding:12px;background:rgba(255,255,255,.035)}
+label{display:block;font-size:12px;color:#dff8ff;font-weight:800;margin-bottom:8px;line-height:1.25}select,input[type=number]{width:100%;background:#071119;color:var(--text);border:1px solid rgba(255,255,255,.15);border-radius:12px;padding:10px 10px;font-size:14px;outline:none;}
+select:focus,input:focus{border-color:var(--cyan);box-shadow:0 0 0 3px rgba(0,213,255,.10)}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}.check{display:flex;align-items:flex-start;gap:10px;border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:11px;background:rgba(255,255,255,.035);font-size:13px;line-height:1.3;color:#d8e9f0}.check input{margin-top:2px;accent-color:var(--cyan)}
+.result{position:sticky;top:18px;}
+.scoreBand{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid rgba(0,213,255,.22);background:linear-gradient(135deg,rgba(0,213,255,.10),rgba(255,179,71,.07));border-radius:22px;padding:18px;margin-bottom:14px;}
+.bigScore{font-size:58px;font-weight:950;letter-spacing:-2px;line-height:.95}.scoreLabel{font-size:12px;color:var(--muted);font-weight:800;text-transform:uppercase;letter-spacing:.12em}.recommend{font-size:26px;line-height:1.08;font-weight:950;letter-spacing:-.5px}.pill{display:inline-flex;border:1px solid rgba(255,255,255,.13);border-radius:999px;padding:7px 10px;font-size:12px;font-weight:900;color:#fff;background:rgba(255,255,255,.06);margin:4px 5px 4px 0}.pill.cyan{border-color:rgba(0,213,255,.55);background:rgba(0,213,255,.12)}.pill.amber{border-color:rgba(255,179,71,.55);background:rgba(255,179,71,.12)}.pill.red{border-color:rgba(255,107,107,.5);background:rgba(255,107,107,.10)}.pill.green{border-color:rgba(94,242,160,.5);background:rgba(94,242,160,.10)}
+.barWrap{margin:14px 0}.barTitle{display:flex;justify-content:space-between;font-size:12px;color:var(--muted);font-weight:800;margin-bottom:7px}.bar{height:13px;background:#061019;border:1px solid rgba(255,255,255,.1);border-radius:999px;overflow:hidden}.bar>div{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--cyan),var(--amber));width:0%;transition:.25s ease}.bar.red>div{background:linear-gradient(90deg,var(--amber),var(--red))}.bar.green>div{background:linear-gradient(90deg,var(--cyan),var(--green))}
+ul.clean{list-style:none;padding:0;margin:10px 0 0}ul.clean li{border-left:3px solid rgba(0,213,255,.55);background:rgba(255,255,255,.035);margin:8px 0;padding:10px 12px;border-radius:10px;color:#dceaf0;line-height:1.35;font-size:14px}.warn li{border-left-color:rgba(255,179,71,.75)!important}.danger li{border-left-color:rgba(255,107,107,.75)!important}
+.summary{white-space:pre-wrap;border:1px dashed rgba(255,255,255,.18);background:rgba(0,0,0,.22);border-radius:16px;padding:14px;line-height:1.42;color:#e8f2f6;font-size:13px;min-height:110px}.btns{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}.btn{border:1px solid rgba(0,213,255,.4);border-radius:14px;background:rgba(0,213,255,.12);color:#fff;font-weight:900;padding:10px 14px;cursor:pointer}.btn.secondary{border-color:rgba(255,255,255,.18);background:rgba(255,255,255,.06)}
+.footer{margin-top:24px;color:var(--muted);font-size:12px;line-height:1.45;border-top:1px solid rgba(255,255,255,.08);padding-top:18px}.hidden{display:none}.wide{grid-column:1/-1}.small{font-size:12px;color:var(--muted);line-height:1.4}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}.audience{font-size:18px;color:#fff;margin-top:8px;line-height:1.35}.spectrum{display:grid;grid-template-columns:1fr 1fr;gap:12px}.spectrum .box{border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;background:rgba(255,255,255,.04)}.spectrum .box h3{margin:0 0 8px;font-size:16px}.spectrum .points{font-size:38px;font-weight:950;letter-spacing:-1px}.tagline{margin-top:14px;border-radius:18px;padding:16px;background:linear-gradient(135deg,rgba(255,179,71,.12),rgba(0,213,255,.08));border:1px solid rgba(255,179,71,.22);font-weight:900;line-height:1.3}
+@media(max-width:900px){.hero,.grid{grid-template-columns:1fr}.formGrid,.checks,.spectrum{grid-template-columns:1fr}.result{position:relative;top:auto}h1{font-size:36px}.bigScore{font-size:46px}}
+@media print{body{background:#fff;color:#000}.app{padding:0}.tabs,.btns,.heroMeta{display:none}.card,.heroCard{box-shadow:none;border:1px solid #ddd;background:#fff;color:#000}.hidden{display:block}.result{position:relative}.subtitle,.small,.card p.lead{color:#333}select,input{border:1px solid #999;color:#000;background:#fff}.check{color:#000;border:1px solid #ccc}.summary{color:#000;background:#fff;border:1px solid #999}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hero">
+    <div class="heroCard">
+      <div class="kicker">AMECRA · herramientas interactivas</div>
+      <h1>Calculadoras para usar en vivo</h1>
+      <div class="subtitle">Dos herramientas prácticas para discusión clínica: <b>trasplante meniscal con bloque óseo vs partes blandas/banda</b> y <b>score de re-revisión de LCA</b>. No reemplazan criterio quirúrgico: obligan a ordenar la decisión.</div>
+      <div class="heroMeta">
+        <div class="metaBox"><b>Modo auditorio</b><span>Resultados claros para proyectar durante la charla.</span></div>
+        <div class="metaBox"><b>Modo comité</b><span>Resumen copiable para caso clínico, discusión o protocolo.</span></div>
+      </div>
+    </div>
+    <div class="heroCard">
+      <div class="kicker">Mensaje central</div>
+      <h1 style="font-size:34px">La técnica no gana por marketing. Gana por indicación, ejecución y trazabilidad.</h1>
+      <div class="subtitle">Úsalas como disparador de debate: si el score contradice tu intuición, no lo obedezcas; explícale a la sala por qué.</div>
+      <div class="tagline">Regla Ferrer: cuando una cirugía falló dos veces, el injerto rara vez era el único culpable.</div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" id="tab-menisco" onclick="setTabs('menisco')">Menisco · Óseo vs Banda</button>
+    <button class="tab" id="tab-lca" onclick="setTabs('lca')">Re-revisión LCA · Score</button>
+  </div>
+
+  <section class="calc" id="calc-menisco">
+    <div class="grid">
+      <div class="card">
+        <h2>Calculadora · Bloque óseo vs partes blandas/banda</h2>
+        <p class="lead">Pensada para defender la indicación en trasplante meniscal. El objetivo no es declarar un ganador universal: es hacer visible por qué elegirías una técnica en ese paciente.</p>
+        <div class="formGrid">
+          <div class="field"><label>Menisco</label><select id="men_side" onchange="calcMen()"><option value="medial">Medial</option><option value="lateral">Lateral</option></select></div>
+          <div class="field"><label>Prioridad anatómica/técnica</label><select id="men_compartment" onchange="calcMen()"><option value="neutral">Balanceada</option><option value="rootCritical">Máxima restauración cuernos/raíz</option><option value="lowBone">Evitar slot / trabajo óseo</option></select></div>
+          <div class="field"><label>Experiencia dominante del equipo</label><select id="men_experience" onchange="calcMen()"><option value="balanced">Ambas</option><option value="bone">Bloques/tacos óseos</option><option value="band">Root repair / all-inside / banda</option><option value="limited">Limitada</option></select></div>
+          <div class="field"><label>Disponibilidad del injerto</label><select id="men_availability" onchange="calcMen()"><option value="good">Adecuada</option><option value="excellentBone">Bloque óseo con matching confiable</option><option value="softOnly">Solo partes blandas / sin bloque confiable</option><option value="uncertain">Matching incierto</option></select></div>
+          <div class="field"><label>Edad</label><input id="men_age" type="number" value="0" min="0" max="90" onchange="calcMen()" oninput="calcMen()"></div>
+          <div class="field"><label>Extrusión meniscal preop, mm</label><input id="men_extrusion" type="number" value="0" min="0" max="12" step="0.5" onchange="calcMen()" oninput="calcMen()"></div>
+          <div class="field"><label>Objetivo docente/reproducible</label><select id="men_teaching" onchange="calcMen()"><option value="no">No prioritario</option><option value="yes">Sí, técnica estandarizable</option></select></div>
+          <div class="field"><label>Cirugía previa / hardware / túneles</label><select id="men_revision" onchange="calcMen()"><option value="no">No relevante</option><option value="yes">Sí, relevante</option></select></div>
+        </div>
+        <div class="sectionTitle">Banderas clínicas</div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="men_cartilage" onchange="calcMen()"> Cartílago avanzado o KL alto en el compartimento</label>
+          <label class="check"><input type="checkbox" id="men_alignment" onchange="calcMen()"> Eje no corregido / sobrecarga compartimental</label>
+          <label class="check"><input type="checkbox" id="men_rootDef" onchange="calcMen()"> Defecto de raíz/cuerno que exige anclaje anatómico</label>
+          <label class="check"><input type="checkbox" id="men_smallTibia" onchange="calcMen()"> Tibia pequeña / riesgo de convergencia</label>
+          <label class="check"><input type="checkbox" id="men_centralization" onchange="calcMen()"> Centralización planificada</label>
+          <label class="check"><input type="checkbox" id="men_fast" onchange="calcMen()"> Necesito técnica más rápida/reproducible</label>
+          <label class="check"><input type="checkbox" id="men_pureAnatomy" onchange="calcMen()"> Busco restauración anatómica estricta</label>
+        </div>
+        <div class="btns"><button class="btn secondary" onclick="resetMen()">Limpiar caso</button><button class="btn" onclick="copyText('menSummary')">Copiar resumen</button></div>
+      </div>
+      <div class="card result">
+        <div class="scoreBand">
+          <div><div class="scoreLabel">Recomendación</div><div class="recommend" id="menRec">—</div><div class="audience" id="menTag"></div></div>
+        </div>
+        <div id="menPills"></div>
+        <div class="spectrum">
+          <div class="box"><h3>Bloque óseo</h3><div class="points" id="menBone">0</div><div class="barWrap"><div class="barTitle"><span>Fuerza de indicación</span><span>18 máx</span></div><div class="bar"><div id="menBoneBar"></div></div></div></div>
+          <div class="box"><h3>Partes blandas / banda</h3><div class="points" id="menBand">0</div><div class="barWrap"><div class="barTitle"><span>Fuerza de indicación</span><span>18 máx</span></div><div class="bar green"><div id="menBandBar"></div></div></div></div>
+        </div>
+        <div class="sectionTitle">Argumentos a favor de bloque óseo</div><ul class="clean" id="menReasonsBone"></ul>
+        <div class="sectionTitle">Argumentos a favor de banda/partes blandas</div><ul class="clean" id="menReasonsBand"></ul>
+        <div class="sectionTitle">Banderas amarillas</div><ul class="clean warn" id="menWarns"></ul>
+        <div class="sectionTitle">Resumen copiable</div><div class="summary" id="menSummary"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="calc hidden" id="calc-lca">
+    <div class="grid">
+      <div class="card">
+        <h2>Score · Re-revisión de LCA</h2>
+        <p class="lead">Ordena la discusión: causa de falla, slope, anterolateral, eje, túneles, injerto y timing. La pregunta no es “qué injerto pongo”; la pregunta es “qué causa no puedo volver a dejar pasar”.</p>
+        <div class="formGrid">
+          <div class="field"><label>Escenario</label><select id="acl_failures" onchange="calcAcl()"><option value="primary">Primera falla / revisión inicial</option><option value="revision">Revisión</option><option value="rerevision">Re-revisión</option><option value="multi">Múltiples fallas</option></select></div>
+          <div class="field"><label>Pivot shift</label><select id="acl_pivot" onchange="calcAcl()"><option value="0">0</option><option value="1">1+</option><option value="2">2+</option><option value="3">3+</option></select></div>
+          <div class="field"><label>Edad</label><input id="acl_age" type="number" value="0" min="0" max="80" onchange="calcAcl()" oninput="calcAcl()"></div>
+          <div class="field"><label>Slope tibial posterior, °</label><input id="acl_slope" type="number" value="0" min="0" max="25" step="0.1" onchange="calcAcl()" oninput="calcAcl()"></div>
+          <div class="field"><label>Túnel tibial, mm</label><input id="acl_tibTunnel" type="number" value="0" min="0" max="30" step="0.5" onchange="calcAcl()" oninput="calcAcl()"></div>
+          <div class="field"><label>Túnel femoral, mm</label><input id="acl_femTunnel" type="number" value="0" min="0" max="30" step="0.5" onchange="calcAcl()" oninput="calcAcl()"></div>
+          <div class="field"><label>Posición de túneles</label><select id="acl_tunnelpos" onchange="calcAcl()"><option value="good">Buena / reutilizable</option><option value="borderline">Borderline</option><option value="bad">Mal posicionados / colisión probable</option></select></div>
+          <div class="field"><label>Deporte / demanda</label><select id="acl_sport" onchange="calcAcl()"><option value="low">Baja</option><option value="pivotRec">Pivote recreacional</option><option value="pivotElite">Pivote competitivo / elite</option></select></div>
+          <div class="field"><label>Varo mecánico / thrust, °</label><input id="acl_varus" type="number" value="0" min="0" max="20" step="0.5" onchange="calcAcl()" oninput="calcAcl()"></div>
+          <div class="field"><label>Procedimiento anterolateral previo</label><select id="acl_prevAL" onchange="calcAcl()"><option value="none">No</option><option value="intact">Sí, aparentemente competente</option><option value="failed">Sí, fallido o mal posicionado</option></select></div>
+          <div class="field"><label>Complejo medial / LOA</label><select id="acl_medial" onchange="calcAcl()"><option value="none">Sin sospecha</option><option value="mcl">Inestabilidad medial parcial</option><option value="loa">Subluxación anteromedial / sospecha LOA</option></select></div>
+          <div class="field"><label>Disponibilidad de injerto</label><select id="acl_graftAvail" onchange="calcAcl()"><option value="mixed">Mixta</option><option value="auto">Autoinjerto disponible</option><option value="allo">Aloinjerto disponible</option><option value="achilles">Aquiles / bloque óseo disponible</option></select></div>
+        </div>
+        <div class="sectionTitle">Factores asociados</div>
+        <div class="checks">
+          <label class="check"><input type="checkbox" id="acl_meniscus" onchange="calcAcl()"> Deficiencia meniscal / root / meniscectomía relevante</label>
+          <label class="check"><input type="checkbox" id="acl_chondral" onchange="calcAcl()"> Daño condral o artrosis que afecta pronóstico</label>
+          <label class="check"><input type="checkbox" id="acl_smoker" onchange="calcAcl()"> Factor biológico/adherencia modificable</label>
+        </div>
+        <div class="btns"><button class="btn secondary" onclick="resetAcl()">Limpiar caso</button><button class="btn" onclick="copyText('aclSummary')">Copiar resumen</button></div>
+      </div>
+      <div class="card result">
+        <div class="scoreBand"><div><div class="scoreLabel">Score de riesgo</div><div class="bigScore" id="aclScore">0</div></div><div><div class="scoreLabel">Categoría</div><div class="recommend" id="aclRisk">—</div></div></div>
+        <div class="barWrap"><div class="barTitle"><span>Riesgo acumulado</span><span>25 máx</span></div><div class="bar red"><div id="aclScoreBar"></div></div></div>
+        <div id="aclPills"></div>
+        <div class="tagline" id="aclPlan"></div>
+        <div class="sectionTitle">Timing sugerido</div><div class="audience" id="aclTiming"></div>
+        <div class="sectionTitle">Injerto sugerido</div><div class="audience" id="aclGraft"></div>
+        <div class="sectionTitle">Acciones quirúrgicas a considerar</div><ul class="clean" id="aclActions"></ul>
+        <div class="sectionTitle">Drivers de riesgo</div><ul class="clean" id="aclDrivers"></ul>
+        <div class="sectionTitle">Banderas amarillas</div><ul class="clean warn" id="aclWarns"></ul>
+        <div class="sectionTitle">Resumen copiable</div><div class="summary" id="aclSummary"></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    Uso sugerido: herramienta educativa para discusión en vivo, comité o docencia. No es dispositivo médico validado ni reemplaza evaluación clínica, imágenes completas ni planificación quirúrgica. Versión AMECRA · Dr. Gonzalo Ferrer.
+  </div>
+</div>
+<script>
+const $ = (id)=>document.getElementById(id);
+function val(id){ const el=$(id); if(!el) return 0; if(el.type==='checkbox') return el.checked; const n=parseFloat(el.value); return isNaN(n)?0:n; }
+function sel(id){ return $(id)?.value || ''; }
+function pct(x,max){ return Math.max(0, Math.min(100, (x/max)*100)); }
+function copyText(id){navigator.clipboard.writeText($(id).textContent).then(()=>alert('Resumen copiado.'));}
+function setTabs(tab){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.calc').forEach(c=>c.classList.add('hidden'));
+  $('tab-'+tab).classList.add('active'); $('calc-'+tab).classList.remove('hidden');
+}
+function resetMen(){ document.querySelectorAll('#calc-menisco input[type=checkbox]').forEach(x=>x.checked=false); ['men_age','men_extrusion'].forEach(id=>$(id).value='0'); ['men_side','men_compartment','men_experience','men_availability','men_teaching','men_revision'].forEach(id=>$(id).selectedIndex=0); calcMen(); }
+function calcMen(){
+  let bone=0, band=0, reasonsBone=[], reasonsBand=[], warns=[];
+  const side=sel('men_side'), comp=sel('men_compartment'), exp=sel('men_experience'), avail=sel('men_availability'), teach=sel('men_teaching'), rev=sel('men_revision');
+  const age=val('men_age'), extr=val('men_extrusion');
+  if(side==='lateral'){ bone+=1; reasonsBone.push('Menisco lateral: preservar geometría de cuernos puede pesar más.'); }
+  if(side==='medial'){ band+=1; reasonsBand.push('Menisco medial: fijación por partes blandas suele ser más reproducible si se domina la periferia/root.'); }
+  if(comp==='rootCritical'){ bone+=3; reasonsBone.push('Prioridad anatómica de cuernos/raíz: favorece bloque óseo o tacos.'); }
+  if(comp==='lowBone'){ band+=3; reasonsBand.push('Necesidad de evitar slot/puente óseo o conflicto tibial: favorece partes blandas/banda.'); }
+  if(exp==='bone'){ bone+=3; reasonsBone.push('Equipo con experiencia real en bloques/tacos óseos.'); }
+  if(exp==='band'){ band+=3; reasonsBand.push('Equipo con experiencia en root/all-inside/centralización: técnica banda/partes blandas más defendible.'); }
+  if(exp==='limited'){ band+=1; warns.push('Experiencia limitada: no elegir técnica compleja solo por teoría.'); }
+  if(avail==='excellentBone'){ bone+=3; reasonsBone.push('Disponibilidad de injerto con bloque óseo adecuado y matching confiable.'); }
+  if(avail==='softOnly'){ band+=4; reasonsBand.push('Disponibilidad real favorece partes blandas: no inventar bloque si el banco no lo entrega bien.'); }
+  if(avail==='uncertain'){ band+=2; warns.push('Matching incierto: el bloque óseo mal dimensionado puede transformar una buena indicación en una mala cirugía.'); }
+  if(teach==='yes'){ band+=2; reasonsBand.push('Objetivo docente/reproducible: partes blandas/banda es más fácil de estandarizar.'); }
+  if(rev==='yes'){ band+=3; reasonsBand.push('Cirugía previa/túneles/hardware: evitar más trabajo óseo puede ser prudente.'); }
+  if(age>0 && age<35){ bone+=1; band+=1; warns.push('Paciente joven/alta demanda: la técnica importa, pero más importa una indicación impecable y fijación estable.'); }
+  if(extr>=3){ band+=2; reasonsBand.push('Extrusión ≥3 mm: considerar centralización; la fijación periférica adquiere peso.'); }
+  if(val('men_cartilage')){ warns.push('Cartílago avanzado: el problema puede no ser la técnica de fijación, sino la indicación del trasplante.'); }
+  if(val('men_alignment')){ warns.push('Malalineamiento no corregido: si el eje carga el compartimento, el trasplante queda condenado.'); }
+  if(val('men_rootDef')){ bone+=2; reasonsBone.push('Defecto anatómico de cuerno/raíz: bloque/taco puede restaurar mejor el anclaje nativo.'); }
+  if(val('men_smallTibia')){ band+=2; reasonsBand.push('Tibia pequeña o riesgo de convergencia: partes blandas evita conflicto óseo.'); }
+  if(val('men_centralization')){ band+=2; reasonsBand.push('Plan de centralización: estrategia banda/partes blandas se integra mejor al control de extrusión.'); }
+  if(val('men_fast')){ band+=2; reasonsBand.push('Necesidad de reducir complejidad/tiempo: partes blandas/banda gana practicidad.'); }
+  if(val('men_pureAnatomy')){ bone+=2; reasonsBone.push('Objetivo de restauración anatómica estricta: bloque óseo gana argumentos.'); }
+  let diff=bone-band, rec='', cls='', tag='';
+  if(diff>=4){ rec='Bloque óseo / tacos óseos'; cls='amber'; tag='Más anatómico si el matching y la ejecución son buenos.'; }
+  else if(diff<=-4){ rec='Partes blandas / banda'; cls='cyan'; tag='Más reproducible, adaptable y útil cuando la logística manda.'; }
+  else { rec='Zona gris: elegir por experiencia del equipo'; cls='green'; tag='No gana la técnica; gana la indicación y la ejecución.'; }
+  $('menBone').textContent=bone; $('menBand').textContent=band; $('menRec').textContent=rec; $('menTag').textContent=tag;
+  $('menBoneBar').style.width=pct(bone,18)+'%'; $('menBandBar').style.width=pct(band,18)+'%';
+  $('menPills').innerHTML = `<span class="pill ${cls}">${rec}</span><span class="pill">Diferencia: ${Math.abs(diff)} pts</span><span class="pill">Score óseo ${bone}</span><span class="pill">Score banda ${band}</span>`;
+  $('menReasonsBone').innerHTML = (reasonsBone.length?reasonsBone:['Sin factores fuertes a favor del bloque óseo.']).map(x=>`<li>${x}</li>`).join('');
+  $('menReasonsBand').innerHTML = (reasonsBand.length?reasonsBand:['Sin factores fuertes a favor de partes blandas/banda.']).map(x=>`<li>${x}</li>`).join('');
+  $('menWarns').innerHTML = (warns.length?warns:['Sin banderas amarillas mayores. Igual confirmar eje, cartílago, tamaño y expectativas.']).map(x=>`<li>${x}</li>`).join('');
+  const summary = `CALCULADORA MENISCAL — BLOQUE ÓSEO VS PARTES BLANDAS/BANDA\nRecomendación: ${rec}\nScore bloque óseo: ${bone} / Score banda: ${band}\nLectura: ${tag}\n\nA favor de bloque óseo:\n- ${reasonsBone.join('\n- ') || 'Sin factores dominantes.'}\n\nA favor de partes blandas/banda:\n- ${reasonsBand.join('\n- ') || 'Sin factores dominantes.'}\n\nBanderas amarillas:\n- ${warns.join('\n- ') || 'Sin banderas mayores.'}\n\nFrase para la charla: el bloque puede ser más anatómico; la banda puede ser más reproducible. La técnica correcta es la que el equipo puede ejecutar perfecto en ese paciente.`;
+  $('menSummary').textContent=summary;
+}
+function resetAcl(){ document.querySelectorAll('#calc-lca input[type=checkbox]').forEach(x=>x.checked=false); ['acl_age','acl_slope','acl_tibTunnel','acl_femTunnel','acl_varus'].forEach(id=>$(id).value='0'); ['acl_failures','acl_pivot','acl_sport','acl_tunnelpos','acl_prevAL','acl_graftAvail','acl_medial'].forEach(id=>$(id).selectedIndex=0); calcAcl(); }
+function calcAcl(){
+  let score=0, actions=[], warns=[], drivers=[];
+  const age=val('acl_age'), slope=val('acl_slope'), tib=val('acl_tibTunnel'), fem=val('acl_femTunnel'), varus=val('acl_varus');
+  const failures=sel('acl_failures'), pivot=parseInt(sel('acl_pivot')||'0'), sport=sel('acl_sport'), tunnelpos=sel('acl_tunnelpos'), prevAL=sel('acl_prevAL'), graft=sel('acl_graftAvail'), medial=sel('acl_medial');
+  if(failures==='revision'){ score+=2; drivers.push('Ya es revisión: buscar causa, no solo cambiar injerto.'); }
+  if(failures==='rerevision'){ score+=4; drivers.push('Re-revisión: reconstrucción aislada del LCA rara vez alcanza.'); }
+  if(failures==='multi'){ score+=5; drivers.push('Múltiples fallas: caso de alto riesgo por definición.'); }
+  if(slope>=12){ score+=4; actions.push('Medir y corregir slope: STP ≥12° favorece OATC anterior, simultánea o diferida según complejidad.'); }
+  else if(slope>=10){ score+=2; warns.push('Slope 10–11,9°: zona gris. No lo ignores si hay pivot alto, deporte de pivote o nueva falla.'); }
+  if(pivot>=2){ score+=3; actions.push('Agregar anterolateral: pivot shift 2–3+ en revisión/re-revisión = LET de rutina salvo contraindicación.'); }
+  if(pivot>=3){ score+=1; drivers.push('Pivot shift 3+: pensar además en lesión medial/LOA si hay subluxación anteromedial.'); }
+  if(sport==='pivotElite'){ score+=3; drivers.push('Deporte de pivote/alto nivel: umbral bajo para LET y autoinjerto robusto si joven.'); }
+  if(sport==='pivotRec'){ score+=2; drivers.push('Actividad de pivote recreacional: no tratar como baja demanda.'); }
+  if(age>0 && age<25){ score+=2; drivers.push('Edad <25 años: riesgo biológico/deportivo alto; evitar aloinjerto como primera opción si hay autoinjerto razonable.'); }
+  if(tib>=12 || fem>=12){ score+=3; actions.push('Túnel ≥12 mm: evaluar injerto con bloque óseo, grafting o cirugía en 2 tiempos según posición.'); }
+  if(tib>=15 || fem>=15){ score+=2; warns.push('Túnel ≥15 mm: alto riesgo de fijación débil/convergencia. Dos tiempos debe estar sobre la mesa.'); }
+  if(tunnelpos==='bad'){ score+=4; actions.push('Túneles mal posicionados: no construir sobre el error; considerar 2 tiempos si comprometen nuevo túnel.'); }
+  if(tunnelpos==='borderline'){ score+=2; warns.push('Túneles borderline: TC 3D y planificación de convergencia antes de decidir 1 tiempo.'); }
+  if(prevAL==='failed'){ score+=2; actions.push('Falló procedimiento anterolateral previo: revisar punto femoral, tensión y necesidad de reconstrucción ALL/LET alternativa.'); }
+  if(prevAL==='none' && (pivot>=2 || failures!=='primary')){ actions.push('Sin LET/ALL previo y caso de revisión: agregar anterolateral es probablemente el movimiento que faltaba.'); }
+  if(varus>=5){ score+=3; actions.push('Varo ≥5° o thrust: evaluar HTO; el eje puede estar matando al injerto.'); }
+  else if(varus>=3){ score+=1; warns.push('Varo 3–4°: revisar MPTA/LDFA y compartimento medial; no todo varo requiere HTO.'); }
+  if(medial==='loa'){ score+=3; actions.push('Subluxación anteromedial/LOA: considerar reconstrucción del LOA/complex medial en caso seleccionado.'); }
+  if(medial==='mcl'){ score+=2; actions.push('Inestabilidad medial parcial: no dejar el LCA solo peleando contra valgo/rotación medial.'); }
+  if(val('acl_meniscus')){ score+=2; actions.push('Deficiencia meniscal/root: reparar o reconstruir si es posible; el menisco es estabilizador secundario.'); }
+  if(val('acl_chondral')){ warns.push('Daño condral/meniscal avanzado: ajustar expectativas. La estabilidad puede mejorar más que el dolor.'); }
+  if(val('acl_smoker')){ score+=1; warns.push('Factor biológico modificable: optimizar tabaco/metabolismo/adherencia antes de una re-revisión grande.'); }
+  let risk='', riskCls='', plan='', timing='', graftRec='';
+  if(score>=18){ risk='Muy alto'; riskCls='red'; plan='Caso para estrategia completa: causa de falla + eje/slope + anterolateral + túneles + injerto. No hacer LCA aislado.'; }
+  else if(score>=12){ risk='Alto'; riskCls='amber'; plan='Probable cirugía combinada. Definir si slope, LET, HTO o 2 tiempos cambian el pronóstico.'; }
+  else if(score>=7){ risk='Intermedio'; riskCls='green'; plan='Se puede resolver en 1 tiempo si túneles y eje lo permiten, pero sin saltarse el diagnóstico etiológico.'; }
+  else { risk='Bajo relativo'; riskCls='cyan'; plan='Revisión más simple, pero igual exige TC, medición de slope y examen de pivot/documentación.'; }
+  if((tib>=12 || fem>=12) && tunnelpos!=='good') timing='Preferir 2 tiempos o planificación avanzada con grafting si el nuevo túnel colisiona.';
+  else if(tib>=15 || fem>=15) timing='Dos tiempos muy razonable salvo solución técnica muy clara.';
+  else timing='1 tiempo posible si posición de túneles, fijación y adjuntos están controlados.';
+  if(graft==='achilles' || tib>=12 || fem>=12) graftRec='Aloinjerto Aquiles / bloque óseo si hay déficit óseo o túnel expandido.';
+  else if(age>0 && age<25) graftRec='Autoinjerto robusto: QT o HTH contralateral, discutir morbilidad de rodilla sana.';
+  else if(graft==='auto') graftRec='Autoinjerto disponible: QT/HTH según cirugías previas y demanda.';
+  else if(graft==='allo') graftRec='Aloinjerto razonable si >25 años/baja-moderada demanda, explicando integración y riesgo.';
+  else graftRec='Elegir injerto según edad, disponibilidad, túneles y déficit óseo; no por costumbre.';
+  $('aclScore').textContent=score; $('aclRisk').textContent=risk; $('aclPlan').textContent=plan; $('aclTiming').textContent=timing; $('aclGraft').textContent=graftRec;
+  $('aclScoreBar').style.width=pct(score,25)+'%';
+  $('aclPills').innerHTML = `<span class="pill ${riskCls}">Riesgo ${risk}</span><span class="pill">Score ${score}/25</span><span class="pill">Timing: ${timing.includes('2')?'considerar 2 tiempos':'1 tiempo posible'}</span>`;
+  $('aclActions').innerHTML=(actions.length?actions:['Sin indicación fuerte de procedimiento adjunto. Confirmar con examen bajo anestesia, TC y planificación.']).map(x=>`<li>${x}</li>`).join('');
+  $('aclDrivers').innerHTML=(drivers.length?drivers:['Sin drivers mayores registrados.']).map(x=>`<li>${x}</li>`).join('');
+  $('aclWarns').innerHTML=(warns.length?warns:['Sin banderas amarillas mayores.']).map(x=>`<li>${x}</li>`).join('');
+  const summary=`SCORE RE-REVISIÓN LCA\nRiesgo: ${risk} (${score}/25)\nPlan global: ${plan}\nTiming sugerido: ${timing}\nInjerto sugerido: ${graftRec}\n\nAcciones quirúrgicas a considerar:\n- ${actions.join('\n- ') || 'Sin acciones adjuntas fuertes.'}\n\nDrivers de riesgo:\n- ${drivers.join('\n- ') || 'Sin drivers mayores.'}\n\nBanderas amarillas:\n- ${warns.join('\n- ') || 'Sin banderas mayores.'}\n\nFrase para la charla: en re-revisión, el problema no es elegir otro injerto; el problema es descubrir por qué fracasó el anterior.`;
+  $('aclSummary').textContent=summary;
+}
+window.addEventListener('DOMContentLoaded',()=>{calcMen(); calcAcl();});
+</script>
+</body>
+</html>
